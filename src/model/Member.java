@@ -1,5 +1,6 @@
 package model;
 
+import java.sql.Date;
 import java.util.HashMap;
 
 import sql.DBService;
@@ -9,7 +10,7 @@ public class Member {
 	private String username;
 	private String password;
 	private String name;
-	private HashMap<String, Integer> time_use_analysis;
+	private HashMap<String, Float> time_use_analysis;
 	
 	public Member() {
 		
@@ -26,14 +27,14 @@ public class Member {
 		dbService.createMember(this);
 	}
 	
-	public void getAnalysis() {
+	public void getAnalysis(Date date) {
 		Analysis analysis = new Analysis(this.getUsername());
-		time_use_analysis = analysis.analysisTimeUse();
+		time_use_analysis = analysis.analysisDailyTimeUse(date);
 	}
 	
 	public void showAnalysis() {
 		for(String key: time_use_analysis.keySet()) {
-			System.out.println("Activity: " + key + " average takes " + time_use_analysis.get(key)+ "minutes per day.");
+			System.out.println("Activity: " + key + " average takes " + time_use_analysis.get(key) * 100+ "percentage per day.");
 		}
 	}
 

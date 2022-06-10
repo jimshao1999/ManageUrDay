@@ -11,6 +11,7 @@ import java.util.UUID;
 
 import model.Member;
 import model.Activity;
+import model.ActivityLabels;
 import model.Analysis;
 
 
@@ -151,15 +152,16 @@ public class DBService {
 		}
 	}	
 	
-	public ArrayList<Activity> getActivity(String member_username) {
+	public ArrayList<Activity> getDailyActivity(String member_username, Date date) {
 		
 		ArrayList<Activity> activities = new ArrayList<>();
 		
 		try {
 			Connection conn = DBConnection.getConnection();
-			PreparedStatement stmt = conn.prepareStatement("SELECT * FROM activities WHERE member_id=?"); 
+			PreparedStatement stmt = conn.prepareStatement("SELECT * FROM activities WHERE member_id=? and Date(start_time)=?"); 
 			
 			stmt.setString(1, member_username);
+			stmt.setDate(2, date);
 			ResultSet res = stmt.executeQuery();
 			
 			while(res.next()) {
@@ -183,25 +185,59 @@ public class DBService {
 		return null;
 	}
 	
-//	public ArrayList<String> getOrdersMember(String member_id) throws SQLException {
-//		
-//		ArrayList<String> orders = new ArrayList<>();
-//		
-//		try {
-//			Connection conn = DBConnection.getConnection();
-//			
-//			PreparedStatement query_orders = conn.prepareStatement("SELECT * from orders WHERE member_name=?"); 
-//			query_orders.setString(1, member_id);
-//			ResultSet res = query_orders.executeQuery();
-//			while(res.next()) {
-//				orders.add(res.getString("id"));
-//			}
-//			conn.close();
-//			return orders;
-//		}
-//		catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		return orders;
-//	}
+	public void createActivityLabels(ActivityLabels label) {
+		
+		try {
+			Connection conn = DBConnection.getConnection();
+			PreparedStatement stmt = conn.prepareStatement("INSERT INTO activitylabels values(?,?,?)"); 
+			
+			stmt.setString(1, UUID.randomUUID().toString());
+			stmt.setString(2, label.getMember_user_name());
+			stmt.setString(3, label.getActivity_label());
+			
+			int res = stmt.executeUpdate();
+			
+			if(res == 1) {
+			
+				System.out.println("Activity Label Created");
+				conn.close();
+			}
+			else {
+				System.out.println("Activity Label Creation Failed");
+				conn.close();
+			}
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}	
+	
+	public ArrayList<String> getActivityLabels(String member_username) {
+		
+		ArrayList<String> activity_labels = new ArrayList<>();
+		
+		try {
+			Connection conn = DBConnection.getConnection();
+			PreparedStatement stmt = conn.prepareStatement("SELECT * FROM activitylabels WHERE member_id=?"); 
+			
+			stmt.setString(1, member_username);
+			ResultSet res = stmt.executeQuery();
+			
+			while(res.next()) {
+			
+				System.out.println("Activity Label found");
+				String activity_label = res.getString("activity");
+				activity_labels.add(activity_label);
+//				might add cookie or something else??
+			}
+			conn.close();
+			return activity_labels;
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+
 }

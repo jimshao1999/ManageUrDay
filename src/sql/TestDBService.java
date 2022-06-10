@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.sql.Date;
 import java.sql.SQLException;
 //import model.Order;
 import model.Member;
@@ -30,10 +31,13 @@ public class TestDBService {
 			String act_name = "activityname" + (i%5);
 			System.out.println(act_name);
 			Activity activity = new Activity("username", act_name, start_time, end_time);
-			activity.setToDB();
+//			activity.setToDB();
 		}
-		
-		member.getAnalysis();
+		Date date = new java.sql.Date(Calendar.getInstance().getTimeInMillis()); 
+//		DateFormat df = DateFormat.getDateInstance();
+//		Date date = df.parse("2022/06/10");
+		System.out.println("date today is " + date);
+		member.getAnalysis(date);
 		member.showAnalysis();
 
 	}

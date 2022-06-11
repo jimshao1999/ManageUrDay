@@ -1,0 +1,57 @@
+
+.left-side-background{
+	-fx-background-color: #D5BDAF;
+	-fx-effect: dropshadow( three-pass-box, rgba(0, 0, 0, 0.6), 5, 0.0, 0, 1);
+}
+
+
+.left-side-member-background{
+	-fx-background-color: #D6CCC2;
+	-fx-effect: dropshadow( three-pass-box, rgba(0, 0, 0, 0.6), 5, 0.0, 0, 1);
+}
+
+
+.border{
+	-fx-border-color: #D5BDAF;
+	-fx-border-width: 1.5;
+}
+
+.bor{
+	-fx-border-color: #D5BDAF;
+	-fx-border-width: 1.5;
+}
+
+
+.button{
+    cursor: pointer;
+}
+
+.left-side-member-button{
+	-fx-background-color: #ffffff;
+	-fx-effect: dropshadow( three-pass-box, rgba(0, 0, 0, 0.6), 5, 0.0, 0, 1);
+}
+
+
+.button:hover{
+    -fx-background-color: -fx-shadow-highlight-color, -fx-outer-border, -fx-inner-border, -fx-body-color;
+    -fx-background-insets: 0 0 -1 0, 0, 1, 2;
+    -fx-background-radius: 3px, 3px, 2px, 1px;
+    -fx-padding: 0.333333em 0.666667em 0.333333em 0.666667em; /* 4 8 4 8 */
+    -fx-text-fill: -fx-text-base-color;
+    
+    -fx-content-display: LEFT;
+    -fx-cursor: hand;
+}
+
+.transparent{
+	-fx-background-color: rgba(0,0,0,0);
+ }
+
+.right-side-border{
+	-fx-border-color: #D5BDAF;
+	-fx-border-width: 0 1.5 0 0;
+}
+
+.combo-box:hover{
+    -fx-cursor: hand;
+}

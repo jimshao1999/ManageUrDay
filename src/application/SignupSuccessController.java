@@ -92,7 +92,107 @@ public class SignupSuccessController extends Controller implements Initializable
 	}
 
 	public void pressConfirmBtn(ActionEvent event) throws IOException {
-		switchScene(ViewEnum.MEMBER, event, usernameTf.getText());
+
+		// Please remove the rest and deliveryman tag. 
+		usernameTf.getText();
+		passwordTf.getText();
+		confirmTf.getText();
+
+//		// TODO [FX] need add the Tf of address
+//		String address = addressTf.getText();
+//		// TODO [FX](done) need add the Tf of phoneNumber
+//		String phone = phoneTf.getText();
+//		// TODO [FX](done) need add the Tf of email
+//		String email = emailTf.getText();
+//
+		// TODO [FX](done) need add the Tf of name
+		String name = nameTf.getText();
+
+		String pattern = "[0-9a-zA-Z]+";
+//		
+//		String phonePattern = "09[0-9]{8}";
+//		String emailPattern = "^\\w{1,63}@[a-zA-Z0-9]{2,63}\\.[a-zA-Z]{2,63}(\\.[a-zA-Z]{2,63})?$";
+
+		System.out.println(passwordTf.getText());
+		System.out.println(confirmTf.getText());
+
+		// TODO (done) [FX] Need a <select> in css to check which type(member, rest,
+		// deliver...) the user want to sign-up.
+		// usertype = UserType.Member;
+
+		while (true) {
+
+			if (!Pattern.matches(pattern, usernameTf.getText())
+					|| !Pattern.matches(pattern, passwordTf.getText())) {
+				// TODO [Fx](done) The string in wrongLb can be change to the string mentioned
+				// below.
+				setWrongLb("Error pattern in username or password");
+				wrongLb.setVisible(true);
+				break;
+			}
+			
+			if (name.length() == 0) {
+				setWrongLb("Please input name");
+				wrongLb.setVisible(true);
+				break;
+			}
+			
+//			if (!Pattern.matches(phonePattern, phone)) {
+//				setWrongLb("Error pattern in phone");
+//				wrongLb.setVisible(true);
+//				break;
+//			}
+//			
+//			if (!Pattern.matches(emailPattern, email)) {
+//				setWrongLb("Error pattern in email");
+//				wrongLb.setVisible(true);
+//				break;
+//			}
+
+			if (!passwordTf.getText().equals(confirmTf.getText())) {
+				// TODO [Fx](done) The string in wrongLb can be change to the string mentioned
+				// below.
+				setWrongLb("Error password and confirm password");
+				wrongLb.setVisible(true);
+				break;
+			}
+			// Maybe add email?
+			
+			Member member = new Member(usernameTf.getText(), passwordTf.getText(), name);
+			
+			if (member.isRegister()) {
+				setWrongLb("Fail to register member");
+				wrongLb.setVisible(true);
+			}
+			else {
+				member.setToDB();
+				setWrongLb("Successfully sign up!, press Go back to login!");
+				status = LoginView.Success;
+				render();
+//				switchScene(ViewEnum.MEMBER, event, usernameTf.getText());
+			}
+			
+			// Tmp
+//			if (!model.checkMemberInWhenRegister(member.getUserName(), member.getPassword()) && !model.checkDeliverManWhenRegister(member.getUserName())) {
+//				model.addMember(member);
+//				// TODO (done) [FX] Success, show sign-up success, and give a button to back to
+//				// login
+//				// page.
+//				setWrongLb("Successfully sign up!, press Go back to login!");
+//				status = LoginView.Success;
+//				render();
+//				//					switchScene(ViewEnum.LOGIN, event);
+//				System.out.println(model.checkMemberInWhenRegister(member.getUserName(), member.getPassword()));
+//				// switchScene(ViewEnum.MEMBER, event, member.getUserName());
+//			} else {
+//				// TODO (done) [Fx] The string in wrongLb can be change to the string mentioned
+//				// below.
+//				setWrongLb("Fail to register member");
+//				wrongLb.setVisible(true);
+//			}
+			
+			break;
+		}
 	}
 	
 	

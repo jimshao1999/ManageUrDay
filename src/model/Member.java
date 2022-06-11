@@ -22,6 +22,26 @@ public class Member {
 		this.name = name;
 	}
 	
+	public Member(String username, String password) {
+		this.username = username;
+		this.password = password;
+	}
+	
+	public Member(String username) {
+		this.username = username;
+	}
+	
+	public boolean isRegister() {
+		DBService dbService = new DBService();
+		return dbService.checkMember(username);
+	}
+	
+	public boolean checklogin() {
+		DBService dbService = new DBService();
+		return dbService.loginDB(username, password);
+		// TODO Auto-generated method stub
+	}
+	
 	public void setToDB() {
 		DBService dbService = new DBService();
 		dbService.createMember(this);
@@ -61,4 +81,5 @@ public class Member {
 	public void setName(String name) {
 		this.name = name;
 	}
+
 }

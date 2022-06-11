@@ -57,7 +57,32 @@ public class LoginController extends Controller implements Initializable {
 	public void pressLoginBtn(ActionEvent event) throws IOException {
 		usernameTf.getText();
 		passwordTf.getText();
-		switchScene(ViewEnum.MEMBER, event, usernameTf.getText());
+		
+		// Add check who want to login? or use if to handle
+		String pattern = "[0-9a-zA-Z]+";
+
+		while (true) {
+			if (!Pattern.matches(pattern, passwordTf.getText())) {
+				// TODO (done) change the errormsg
+				setWrongLb("Error pattern in username or password");
+				wrongLb.setVisible(true);
+				// refresh
+					break;
+				}
+			
+			Member member = new Member(usernameTf.getText(), passwordTf.getText());
+
+			if (member.checklogin()) {
+				switchScene(ViewEnum.MEMBER, event, usernameTf.getText());
+				System.out.println("Login success as member");
+			}
+			else {
+				setWrongLb("Login Fail");
+				wrongLb.setVisible(true);
+			}
+      
+			break;
+		}
 	}
 
 	public void pressSignupBtn(ActionEvent event) throws IOException {

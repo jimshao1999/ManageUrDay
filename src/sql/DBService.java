@@ -123,6 +123,35 @@ public class DBService {
 		return null;
 	}
 	
+	public boolean checkMember(String username) {
+		
+		try {
+			Connection conn = DBConnection.getConnection();
+			PreparedStatement stmt = conn.prepareStatement("SELECT * FROM members WHERE username=?"); 
+			
+			stmt.setString(1, username);
+			
+			ResultSet res = stmt.executeQuery();
+			
+			if(res.next()) {
+				System.out.print("Find!");
+				Member member = new Member(res.getString("username"), res.getString("password"), res.getString("name"));
+				conn.close();
+				return true;
+			}
+			else {
+				System.out.print("NotFind!");
+				conn.close();
+				return false;
+			}
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return false;
+	}
+	
 	public void createActivity(Activity activity) {
 		
 		try {

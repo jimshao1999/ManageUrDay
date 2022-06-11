@@ -134,51 +134,38 @@ public class MemberController extends Controller implements Initializable {
 			// TODO [Optional] Maybe can show all activity there later?
 		}
 		
-//		for(int i = 0; i <10; i ++) {
-//			Timestamp now = new Timestamp(Calendar.getInstance().getTimeInMillis());
-//			long l = now.getTime();
-//			l = l + i * 1000*60*60;
-//			long m = (i+10)*60*1000;
-//			Timestamp start_time = new Timestamp(l+m);
-//			Timestamp end_time = new Timestamp(l+2*m);
-//			
-//			String act_name = "activityname" + (i%5);
-//			System.out.println(act_name);
-//			Activity activity = new Activity("username", act_name, start_time, end_time);
-////			activity.setToDB();
-//		}
-//		Date date = new java.sql.Date(Calendar.getInstance().getTimeInMillis()); 
-////		DateFormat df = DateFormat.getDateInstance();
-////		Date date = df.parse("2022/06/10");
-//		System.out.println("date today is " + date);
-//		member.getAnalysis(date);
-//		member.showAnalysis();
+		//		for(int i = 0; i <10; i ++) {
+		//			Timestamp now = new Timestamp(Calendar.getInstance().getTimeInMillis());
+		//			long l = now.getTime();
+		//			l = l + i * 1000*60*60;
+		//			long m = (i+10)*60*1000;
+		//			Timestamp start_time = new Timestamp(l+m);
+		//			Timestamp end_time = new Timestamp(l+2*m);
+		//			
+		//			String act_name = "activityname" + (i%5);
+		//			System.out.println(act_name);
+		//			Activity activity = new Activity("username", act_name, start_time, end_time);
+		////			activity.setToDB();
+		//		}
+		//		Date date = new java.sql.Date(Calendar.getInstance().getTimeInMillis()); 
+		////		DateFormat df = DateFormat.getDateInstance();
+		////		Date date = df.parse("2022/06/10");
+		//		System.out.println("date today is " + date);
+		//		member.getAnalysis(date);
+		//		member.showAnalysis();
 	}
 
 	public void pressAnalysisBtn() {
 		// use analysis function
 		Member member = new Member(this.username);
-		Date date = new java.sql.Date(Calendar.getInstance().getTimeInMillis()); 
-		DateFormat df = DateFormat.getDateInstance();
 		
-		// TODO [WIP]
-		// what
-//		try {
-//			java.util.Date date1 = df.parse("2022/06/10");
-//			
-//			Calendar calender = Calendar.getInstance();
-//			calender.setTime(date1);
-//			
-//			Date dateNew = new java.sql.Date(Calendar.getInstance().getTimeInMillis()); 
-//
-//			java.sql.Date(Calendar.getInstance().setTime(date1));
-//		} catch (ParseException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		// Maybe you need to set time
 		
-		System.out.println("date today is " + date);
-		member.getAnalysis(date);
+	    String str = "2022-06-11";
+	    Date dateOld = Date.valueOf(str); //converting string into sql date  
+	    System.out.println(dateOld);
+		
+		member.getAnalysis(dateOld);
 		member.showAnalysis();
 	}
 

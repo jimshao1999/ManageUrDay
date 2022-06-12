@@ -51,11 +51,15 @@ public class Member {
 		Analysis analysis = new Analysis(this.getUsername());
 		time_use_analysis = analysis.analysisDailyTimeUse(date);
 	}
-	
+		
 	public void showAnalysis() {
 		for(String key: time_use_analysis.keySet()) {
 			System.out.println("Activity: " + key + " average takes " + time_use_analysis.get(key) * 100+ "percentage per day.");
 		}
+	}
+	
+	public HashMap<String, Float> getAnalysisData(){
+		return time_use_analysis;
 	}
 
 	public String getUsername() {

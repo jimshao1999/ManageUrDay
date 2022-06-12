@@ -147,33 +147,58 @@ public class MemberController extends Controller implements Initializable {
 	public void pressVBtn() throws ParseException {
 		// [MING] Please add record to DB
 		try {
-			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");  
-		    Date date = new Date();  
-		    System.out.println(formatter.format(date).toString());  
+			String str = "2022-06-11";
+		    Date date = java.sql.Date.valueOf(str); //converting string into sql date  
+		    System.out.println(date);
+		    long fromHr = 10;
+		    long fromMin = 20;
+		    long toHr = 10;
+		    long toMin = 30;
 		    
-		    String From = formatter.format(date).toString() + " " + fromTf.getText();
-		    String To = formatter.format(date).toString() + " " + toTf.getText();
 		    
-		    System.out.println("From = " + From);
-		    System.out.println("To = " + To);
+		    Timestamp start_time = new Timestamp(date.getTime() + fromHr * 3600 * 1000 + fromMin * 60 * 1000);
+		    System.out.println("Start: " + start_time);
+		    Timestamp end_time = new Timestamp(date.getTime() + toHr * 3600 * 1000 + toMin * 60 * 1000);
+		    System.out.println("End: " + end_time);
 
 		    
-			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
-			Date parsedDate = dateFormat.parse(From);
-			Timestamp fromTimestamp = new java.sql.Timestamp(parsedDate.getTime());
-			System.out.println("From Timestamp = " + fromTimestamp);
-	//a
-			Date parsedDate2 = dateFormat.parse(To);
-			Timestamp toTimestamp = new java.sql.Timestamp(parsedDate2.getTime());
-			System.out.println("To Timestamp = " + toTimestamp);
-
-			String l = activityCombo.getValue();
-			System.out.println("Label = " + l);
-
+		    if (!start_time.before(end_time)) {
+		    	System.out.println("Time error");
+		    	pressActivityBtn();
+		    }
+		    else {
+		    	String choicedLabel = activityCombo.getValue();
+		    	
+				Activity activity = new Activity(this.username, choicedLabel, start_time, end_time);
+				activity.setToDB();
+				
+				showAllActivity();
+//				}
+		    }
 			
 			
-			showAllActivity();
-			
+//			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");  
+//		    Date date = new Date();  
+//		    System.out.println(formatter.format(date).toString());  
+//		    
+//		    String From = formatter.format(date).toString() + " " + fromTf.getText();
+//		    String To = formatter.format(date).toString() + " " + toTf.getText();
+//		    
+//		    System.out.println("From = " + From);
+//		    System.out.println("To = " + To);
+//
+//		    
+//			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+//			Date parsedDate = dateFormat.parse(From);
+//			Timestamp fromTimestamp = new java.sql.Timestamp(parsedDate.getTime());
+//			System.out.println("From Timestamp = " + fromTimestamp);
+//	//a
+//			Date parsedDate2 = dateFormat.parse(To);
+//			Timestamp toTimestamp = new java.sql.Timestamp(parsedDate2.getTime());
+//			System.out.println("To Timestamp = " + toTimestamp);
+//
+//			String l = activityCombo.getValue();
+//			System.out.println("Label = " + l);			
 		} catch(Exception e) {
 			displayVb.getChildren().clear();
 			Label t  = new Label("Invalid Time Format!");
@@ -186,8 +211,15 @@ public class MemberController extends Controller implements Initializable {
 	private void showAllActivity() {
 		displayVb.getChildren().clear();
 		// [MING, Gting] show all activity on displaVb
-		ActivityLabels labels = new ActivityLabels(this.username);
-		ArrayList<String> existLabels = labels.getLabels();
+		// choose a day
+		String str = "2022-06-11";
+	    Date date = java.sql.Date.valueOf(str); //converting string into sql date  
+	    System.out.println(date);
+	    ArrayList<Activity> activities = Activity.getActivityFromDateInDB(this.username, (java.sql.Date) date);
+	    
+	    for (Activity activity: activities) {
+	    	System.out.println("Name: " + activity.getActivity_name() + ", Start: " + activity.getStart_time_fix() + ", End: " + activity.getEnd_time_fix());
+	    }
 
 	}
 
@@ -247,6 +279,8 @@ public class MemberController extends Controller implements Initializable {
 		for(int i = 0; i < existLabels.size(); i++)
 			activityCombo.getItems().add(existLabels.get(i));
 		
+		
+		this.showAllActivity();
 		
 //		activityCombo.getItems().set(0, "123");
 //		activityCombo.getItems().set(1, "456");
@@ -316,12 +350,18 @@ public class MemberController extends Controller implements Initializable {
 		
 		// Maybe you need to set time
 		
-//	    String str = "2022-06-11";
-//	    Date dateOld = Date.valueOf(str); //converting string into sql date  
-//	    System.out.println(dateOld);
-//		
-//		member.getAnalysis(dateOld);
-//		member.showAnalysis();
+	    String str = "2022-06-11";
+	    java.sql.Date dateOld = java.sql.Date.valueOf(str); //converting string into sql date  
+	    System.out.println(dateOld);
+		
+		member.getAnalysis(dateOld);
+		member.showAnalysis();
+		
+		HashMap<String, Float> AnalysisData = member.getAnalysisData();
+		System.out.println("------------");
+		for(String key: AnalysisData.keySet()) {
+			System.out.println("Activity: " + key + " average takes " + AnalysisData.get(key) * 100+ "percentage per day.");
+		}
 	}
 
 	@Override

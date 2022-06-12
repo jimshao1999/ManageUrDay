@@ -14,4 +14,5 @@ The java project is to record how you spend your daily time, and you can analyze
 1. Clone the project.
 2. Go to `\src\sql\DBConnection` and `\src\sql\DBCreation` and change the ***username*** and ***password*** to fit your **mysql** account.
 3. Run `\src\sql\TestConnection` to build the database.
-4. Run `\src\Application\Main`
+4. if you meet errors in `module-info.java`, just right click and auto-debug.
+5. Run `\src\Application\Main`

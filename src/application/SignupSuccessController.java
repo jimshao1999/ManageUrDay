@@ -30,18 +30,6 @@ public class SignupSuccessController extends Controller implements Initializable
 	private TextField nameTf;
 
 	@FXML
-	private TextField phoneTf;
-
-	@FXML
-	private TextField emailTf;
-
-	@FXML
-	private TextField addressTf;
-
-	@FXML
-	private ComboBox<String> typeCombo;
-
-	@FXML
 	private Label wrongLb;
 
 	@FXML
@@ -59,25 +47,17 @@ public class SignupSuccessController extends Controller implements Initializable
 		if (status == LoginView.SignUp) {
 			usernameTf.setVisible(true);
 			passwordTf.setVisible(true);
-			addressTf.setVisible(true);
 			confirmTf.setVisible(true);
 			wrongLb.setVisible(false);
-			emailTf.setVisible(true);
-			phoneTf.setVisible(true);
 			nameTf.setVisible(true);
-			typeCombo.setVisible(true);	
 			confirmBtn.setVisible(true);
 
 		} else { // sign up success
 			usernameTf.setVisible(false);
 			passwordTf.setVisible(false);
-			addressTf.setVisible(false);
 			confirmTf.setVisible(false);
 			wrongLb.setVisible(true);
-			emailTf.setVisible(false);
-			phoneTf.setVisible(false);
 			nameTf.setVisible(false);
-			typeCombo.setVisible(false);	
 			confirmBtn.setVisible(false);
 		}
 	}
@@ -169,28 +149,7 @@ public class SignupSuccessController extends Controller implements Initializable
 				setWrongLb("Successfully sign up!, press Go back to login!");
 				status = LoginView.Success;
 				render();
-//				switchScene(ViewEnum.MEMBER, event, usernameTf.getText());
-			}
-			
-			// Tmp
-//			if (!model.checkMemberInWhenRegister(member.getUserName(), member.getPassword()) && !model.checkDeliverManWhenRegister(member.getUserName())) {
-//				model.addMember(member);
-//				// TODO (done) [FX] Success, show sign-up success, and give a button to back to
-//				// login
-//				// page.
-//				setWrongLb("Successfully sign up!, press Go back to login!");
-//				status = LoginView.Success;
-//				render();
-//				//					switchScene(ViewEnum.LOGIN, event);
-//				System.out.println(model.checkMemberInWhenRegister(member.getUserName(), member.getPassword()));
-//				// switchScene(ViewEnum.MEMBER, event, member.getUserName());
-//			} else {
-//				// TODO (done) [Fx] The string in wrongLb can be change to the string mentioned
-//				// below.
-//				setWrongLb("Fail to register member");
-//				wrongLb.setVisible(true);
-//			}
-			
+			}			
 			break;
 		}
 	}
@@ -200,8 +159,6 @@ public class SignupSuccessController extends Controller implements Initializable
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// TODO Auto-generated method stub
 		status = LoginView.SignUp;
-		typeCombo.getItems().setAll("Member", "Deliver", "Restaurant"); // set the options
-		typeCombo.setValue("Member");
 		render();
 	}
 }

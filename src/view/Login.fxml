@@ -46,7 +46,7 @@
                      <children>
                         <Pane prefHeight="56.0" prefWidth="58.0" styleClass="right-side-border" stylesheets="@style.css">
                            <children>
-                              <ImageView fitHeight="31.0" fitWidth="32.0" layoutX="7.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="31.0" fitWidth="32.0" layoutX="8.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../imgs/user.png" />
                                  </image>
@@ -70,7 +70,7 @@
                      <children>
                         <Pane prefHeight="56.0" prefWidth="58.0" styleClass="right-side-border" stylesheets="@style.css">
                            <children>
-                              <ImageView fitHeight="31.0" fitWidth="42.0" layoutX="7.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="31.0" fitWidth="42.0" layoutX="9.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../imgs/padlock.png" />
                                  </image>

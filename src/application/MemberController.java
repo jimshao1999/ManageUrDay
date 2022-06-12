@@ -3,13 +3,14 @@ package application;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
-import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -48,7 +49,13 @@ public class MemberController extends Controller implements Initializable {
 	private Label welcomeLb;
 
 	@FXML
-	private Button labelsBtn;
+	private Button labelBtn;
+	
+	@FXML
+	private Button addBtn;
+
+	@FXML
+	private Button vBtn;
 
 	@FXML
 	private Button activityBtn;
@@ -59,6 +66,24 @@ public class MemberController extends Controller implements Initializable {
 	@FXML
 	private VBox displayVb;
 
+	@FXML
+	private HBox labelHb;
+	
+	@FXML
+	private TextField labelTf;
+
+	@FXML
+	private TextField fromTf;
+
+	@FXML
+	private TextField toTf;
+
+	@FXML
+	private ComboBox<String> activityCombo;
+
+	@FXML
+	private HBox activityHb;
+	
 	private String username;
 	private MemberView status;
 	private String tmp = "";
@@ -76,10 +101,97 @@ public class MemberController extends Controller implements Initializable {
 
 	@Override
 	protected void render() {
-
+		switch(status) {
+		case Label:
+			labelHb.setDisable(false);
+			activityHb.setDisable(true);
+			break;
+		case Activity:
+			labelHb.setDisable(true);
+			activityHb.setDisable(false);
+			break;
+		case Analysis:
+			labelHb.setDisable(true);
+			activityHb.setDisable(true);
+			break;
+		case Default:
+			labelHb.setDisable(false);
+			activityHb.setDisable(true);
+			pressLabelBtn();
+			break;
+		}
+		
 	}
 		
-	public void pressLabelsBtn() {
+	public void pressAddBtn() {
+		// [MING] Add new Labels to DB, then show it on displayVb (you should replace Array existLabels here)
+		ArrayList<String> existLabels = new ArrayList<String>();
+		existLabels.add("123");
+		if ((labelTf.getText() != null) && !labelTf.getText().equals(""))
+			existLabels.add(labelTf.getText());
+		
+		displayVb.getChildren().clear();
+		
+		// [MING] this part of code should be replace to pressLabelBtn() when finished add label to DB
+		Label t = null;
+		t  = new Label("Existed Labels: ");
+		t.setFont(new Font("Yu Gothic UI Semibold", 18));
+		displayVb.getChildren().add(t);
+		for(String i : existLabels)
+			t  = new Label(i);
+			t.setFont(new Font("Yu Gothic UI Semibold", 18));
+			displayVb.getChildren().add(t);
+	}
+	
+	public void pressVBtn() throws ParseException {
+		// [MING] Please add record to DB
+		try {
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");  
+		    Date date = new Date();  
+		    System.out.println(formatter.format(date).toString());  
+		    
+		    String From = formatter.format(date).toString() + " " + fromTf.getText();
+		    String To = formatter.format(date).toString() + " " + toTf.getText();
+		    
+		    System.out.println("From = " + From);
+		    System.out.println("To = " + To);
+
+		    
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+			Date parsedDate = dateFormat.parse(From);
+			Timestamp fromTimestamp = new java.sql.Timestamp(parsedDate.getTime());
+			System.out.println("From Timestamp = " + fromTimestamp);
+	//a
+			Date parsedDate2 = dateFormat.parse(To);
+			Timestamp toTimestamp = new java.sql.Timestamp(parsedDate2.getTime());
+			System.out.println("To Timestamp = " + toTimestamp);
+
+			String l = activityCombo.getValue();
+			System.out.println("Label = " + l);
+
+			
+			
+			showAllActivity();
+			
+		} catch(Exception e) {
+			displayVb.getChildren().clear();
+			Label t  = new Label("Invalid Time Format!");
+			t.setFont(new Font("Yu Gothic UI Semibold", 18));
+			displayVb.getChildren().add(t);
+			
+		}
+	}
+	
+	private void showAllActivity() {
+		displayVb.getChildren().clear();
+		// [MING, Gting] show all activity on displaVb
+	}
+
+	public void pressLabelBtn() {
+		status = MemberView.Label;
+		render();		
+		activityCombo.getItems().clear();
+		activityCombo.setValue("Default");
 		// Setting labels
 		ActivityLabels labels = new ActivityLabels(this.username);
 		
@@ -96,11 +208,39 @@ public class MemberController extends Controller implements Initializable {
 		// Can Update automatically
 		// pressLabelsBtn();
 		
+		// [MING] Get all exist Labels from DB, then show it on displayVb (you should replace Array existLabels here)
+		String[] existLabels = {"123", "456"};
+		activityCombo.setValue("Default");
+		for(int i = 0; i < 2; i++)
+			activityCombo.getItems().add(existLabels[i]);
+		displayVb.getChildren().clear();
+		Label t = new Label("Existed Labels:");
+		t.setFont(new Font("Yu Gothic UI Semibold", 18));
+		displayVb.getChildren().add(t);
+		for (int i = 0; i < existLabels.length; i++) {
+			t = new Label(existLabels[i]);
+			t.setFont(new Font("Yu Gothic UI Semibold", 18));			
+			displayVb.getChildren().add(t);
+		}
 		
 	}
 
 	
-	public void pressActivityBtn() {
+	public void pressActivityBtn() throws ParseException {
+		status = MemberView.Activity;
+		render();		
+		// [MING] Get all exist Labels from DB, (you should replace Array existLabels here)
+		String[] existLabels = {"123", "456"};
+		activityCombo.getItems().clear();
+		activityCombo.setValue("Default");
+		for(int i = 0; i < 2; i++)
+			activityCombo.getItems().add(existLabels[i]);
+		
+		
+//		activityCombo.getItems().set(0, "123");
+//		activityCombo.getItems().set(1, "456");
+		
+		
 		// setting activity
 		
 		// TODO Need to send member_id, Activity, start time, end time
@@ -156,17 +296,21 @@ public class MemberController extends Controller implements Initializable {
 	}
 
 	public void pressAnalysisBtn() {
+		status = MemberView.Analysis;
+		render();
+		activityCombo.getItems().clear();
+		activityCombo.setValue("Default");
 		// use analysis function
 		Member member = new Member(this.username);
 		
 		// Maybe you need to set time
 		
-	    String str = "2022-06-11";
-	    Date dateOld = Date.valueOf(str); //converting string into sql date  
-	    System.out.println(dateOld);
-		
-		member.getAnalysis(dateOld);
-		member.showAnalysis();
+//	    String str = "2022-06-11";
+//	    Date dateOld = Date.valueOf(str); //converting string into sql date  
+//	    System.out.println(dateOld);
+//		
+//		member.getAnalysis(dateOld);
+//		member.showAnalysis();
 	}
 
 	@Override

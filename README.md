@@ -1,4 +1,5 @@
 # ManageUrDay
+The java project is to record how you spend your daily time, and you can analyze the time distribution of your daily activities.
 
 ## Environmental Settings
 1. Run in Java SE 11 or Java SE 17.

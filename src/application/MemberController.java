@@ -70,7 +70,7 @@ public class MemberController extends Controller implements Initializable {
 	@Override
 	protected void setUsernameLb(String s) {
 		username = s;
-		String tmp = "Hello, Member " + s + "\nWelcome to Footopia!";
+		String tmp = "Hello, Member " + s + "\nWelcome to Time Diary!";
 		welcomeLb.setText(tmp);
 	}
 

@@ -40,7 +40,7 @@
                         <Insets left="5.0" top="20.0" />
                      </VBox.margin>
                   </HBox>
-                  <Button fx:id="labelsBtn" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#pressLabelsBtn" prefHeight="38.0" prefWidth="118.0" styleClass="left-side-member-button" stylesheets="@style.css" text="Labels">
+                  <Button fx:id="labelBtn" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#pressLabelBtn" prefHeight="38.0" prefWidth="118.0" styleClass="left-side-member-button" stylesheets="@style.css" text="Label">
                      <font>
                         <Font name="Arial" size="17.0" />
                      </font>
@@ -97,7 +97,7 @@
             </VBox>
             <VBox prefHeight="400.0" prefWidth="426.0">
                <children>
-                  <Label fx:id="welcomeLb" alignment="CENTER" prefHeight="64.0" prefWidth="427.0" text="a" textFill="#941c07">
+                  <Label fx:id="welcomeLb" alignment="CENTER" prefHeight="95.0" prefWidth="426.0" text="a" textFill="#941c07">
                      <VBox.margin>
                         <Insets top="15.0" />
                      </VBox.margin>
@@ -105,7 +105,60 @@
                         <Font name="Agency FB Bold" size="24.0" />
                      </font>
                   </Label>
-                  <ScrollPane prefHeight="276.0" prefWidth="386.0">
+                  <HBox fx:id="labelHb" prefHeight="46.0" prefWidth="386.0">
+                     <children>
+                        <TextField fx:id="labelTf" prefHeight="39.0" prefWidth="365.0" promptText="Add Label Here!">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </TextField>
+                        <Button fx:id="addBtn" minWidth="-Infinity" mnemonicParsing="false" onAction="#pressAddBtn" prefHeight="3.0" prefWidth="37.0" styleClass="left-side-member-button" stylesheets="@style.css" text="+" textFill="#0040ff">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                           <font>
+                              <Font name="Arial Bold" size="14.0" />
+                           </font>
+                        </Button>
+                     </children>
+                     <VBox.margin>
+                        <Insets left="20.0" right="20.0" top="10.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox fx:id="activityHb" prefHeight="46.0" prefWidth="386.0">
+                     <children>
+                        <ComboBox fx:id="activityCombo" prefHeight="43.0" prefWidth="141.0" promptText="Label" stylesheets="@style.css">
+                           <styleClass>
+                              <String fx:value="transparent" />
+                              <String fx:value="border" />
+                           </styleClass></ComboBox>
+                        <TextField fx:id="fromTf" prefHeight="39.0" prefWidth="139.0" promptText="From (MM:SS)">
+                           <HBox.margin>
+                              <Insets left="8.0" />
+                           </HBox.margin>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </TextField>
+                        <TextField fx:id="toTf" prefHeight="39.0" prefWidth="132.0" promptText="To (MM:SS)">
+                           <HBox.margin>
+                              <Insets left="8.0" />
+                           </HBox.margin>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </TextField>
+                        <Button fx:id="vBtn" minWidth="-Infinity" mnemonicParsing="false" onAction="#pressVBtn" prefHeight="3.0" prefWidth="37.0" styleClass="left-side-member-button" stylesheets="@style.css" text="V" textFill="#0040ff">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                     <VBox.margin>
+                        <Insets left="20.0" right="20.0" top="5.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <ScrollPane prefHeight="238.0" prefWidth="386.0">
                      <content>
                         <VBox fx:id="displayVb" prefHeight="212.0" prefWidth="385.0">
                            <padding>

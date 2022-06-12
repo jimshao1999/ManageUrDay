@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.chart.*?>
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.effect.*?>
@@ -125,29 +126,19 @@
                         <Insets left="20.0" right="20.0" top="10.0" />
                      </VBox.margin>
                   </HBox>
-                  <HBox fx:id="activityHb" prefHeight="46.0" prefWidth="386.0">
+                  <HBox fx:id="activityHb2" prefHeight="22.0" prefWidth="386.0">
                      <children>
-                        <ComboBox fx:id="activityCombo" prefHeight="43.0" prefWidth="141.0" promptText="Label" stylesheets="@style.css">
+                        <ComboBox fx:id="activityCombo" prefHeight="43.0" prefWidth="136.0" promptText="Label" stylesheets="@style.css">
                            <styleClass>
                               <String fx:value="transparent" />
                               <String fx:value="border" />
-                           </styleClass></ComboBox>
-                        <TextField fx:id="fromTf" prefHeight="39.0" prefWidth="139.0" promptText="From (MM:SS)">
+                           </styleClass>
+                        </ComboBox>
+                        <DatePicker fx:id="datePicker" prefHeight="39.0" prefWidth="219.0">
                            <HBox.margin>
-                              <Insets left="8.0" />
+                              <Insets left="10.0" />
                            </HBox.margin>
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                        </TextField>
-                        <TextField fx:id="toTf" prefHeight="39.0" prefWidth="132.0" promptText="To (MM:SS)">
-                           <HBox.margin>
-                              <Insets left="8.0" />
-                           </HBox.margin>
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                        </TextField>
+                        </DatePicker>
                         <Button fx:id="vBtn" minWidth="-Infinity" mnemonicParsing="false" onAction="#pressVBtn" prefHeight="3.0" prefWidth="37.0" styleClass="left-side-member-button" stylesheets="@style.css" text="V" textFill="#0040ff">
                            <HBox.margin>
                               <Insets left="10.0" />
@@ -158,12 +149,38 @@
                         <Insets left="20.0" right="20.0" top="5.0" />
                      </VBox.margin>
                   </HBox>
+                  <HBox fx:id="activityHb" prefHeight="46.0" prefWidth="386.0">
+                     <children>
+                        <TextField fx:id="fromTf" prefHeight="30.0" prefWidth="190.0" promptText="From (HH:MM)">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </TextField>
+                        <TextField fx:id="toTf" prefHeight="39.0" prefWidth="190.0" promptText="To (HH:MM)">
+                           <HBox.margin>
+                              <Insets left="8.0" />
+                           </HBox.margin>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </TextField>
+                     </children>
+                     <VBox.margin>
+                        <Insets left="20.0" right="20.0" top="5.0" />
+                     </VBox.margin>
+                  </HBox>
                   <ScrollPane prefHeight="238.0" prefWidth="386.0">
                      <content>
-                        <VBox fx:id="displayVb" prefHeight="212.0" prefWidth="385.0">
+                        <VBox fx:id="displayVb" prefHeight="212.0" prefWidth="378.0">
                            <padding>
                               <Insets left="5.0" top="5.0" />
                            </padding>
+                           <children>
+                              <PieChart titleSide="LEFT" />
+                           </children>
                         </VBox>
                      </content>
                      <VBox.margin>

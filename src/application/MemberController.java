@@ -15,23 +15,32 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
+import javafx.geometry.Side;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.PieChart;
+import javafx.scene.chart.PieChart.Data;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
@@ -79,14 +88,22 @@ public class MemberController extends Controller implements Initializable {
 	private TextField toTf;
 
 	@FXML
+	private DatePicker datePicker;
+
+	
+	@FXML
 	private ComboBox<String> activityCombo;
 
 	@FXML
 	private HBox activityHb;
 	
+	@FXML
+	private HBox activityHb2;
+
 	private String username;
+	private String selectedDate = "";
 	private MemberView status;
-	private String tmp = "";
+	
 	
 	public void logout(ActionEvent event) throws IOException {
 		switchScene(ViewEnum.LOGIN, event);
@@ -105,19 +122,34 @@ public class MemberController extends Controller implements Initializable {
 		case Label:
 			labelHb.setDisable(false);
 			activityHb.setDisable(true);
+			activityHb2.setDisable(true);
+			selectedDate = "2022-06-11";
+			activityCombo.getItems().clear();
+			activityCombo.setValue("Default");
 			break;
 		case Activity:
 			labelHb.setDisable(true);
 			activityHb.setDisable(false);
+			activityHb2.setDisable(false);
+			selectedDate = "2022-06-11";
+			activityCombo.getItems().clear();
+			activityCombo.setValue("Default");
 			break;
 		case Analysis:
 			labelHb.setDisable(true);
 			activityHb.setDisable(true);
+			activityHb2.setDisable(true);
+			activityCombo.getItems().clear();
+			activityCombo.setValue("Default");
 			break;
 		case Default:
 			labelHb.setDisable(false);
 			activityHb.setDisable(true);
+			activityHb2.setDisable(true);
+			selectedDate = "2022-06-11";
 			pressLabelBtn();
+			activityCombo.getItems().clear();
+			activityCombo.setValue("Default");
 			break;
 		}
 		
@@ -147,21 +179,21 @@ public class MemberController extends Controller implements Initializable {
 	public void pressVBtn() throws ParseException {
 		// [MING] Please add record to DB
 		try {
-			String str = "2022-06-11";
+			String str = datePicker.getValue().toString();
 		    Date date = java.sql.Date.valueOf(str); //converting string into sql date  
-		    System.out.println(date);
-		    long fromHr = 10;
-		    long fromMin = 20;
-		    long toHr = 10;
-		    long toMin = 30;
+		    System.out.println("WW"+date);
 		    
-		    
-		    Timestamp start_time = new Timestamp(date.getTime() + fromHr * 3600 * 1000 + fromMin * 60 * 1000);
-		    System.out.println("Start: " + start_time);
-		    Timestamp end_time = new Timestamp(date.getTime() + toHr * 3600 * 1000 + toMin * 60 * 1000);
-		    System.out.println("End: " + end_time);
+		    String From = date.toString() + " " + fromTf.getText();
+		    String To = date.toString() + " " + toTf.getText();
 
-		    
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+			Date parsedDate = dateFormat.parse(From);
+			Timestamp start_time = new java.sql.Timestamp(parsedDate.getTime());
+
+			Date parsedDate2 = dateFormat.parse(To);
+			Timestamp end_time = new java.sql.Timestamp(parsedDate2.getTime());
+			System.out.println("To Timestamp = " + end_time);
+		   
 		    if (!start_time.before(end_time)) {
 		    	System.out.println("Time error");
 		    	pressActivityBtn();
@@ -175,33 +207,14 @@ public class MemberController extends Controller implements Initializable {
 				showAllActivity();
 //				}
 		    }
-			
-			
-//			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");  
-//		    Date date = new Date();  
-//		    System.out.println(formatter.format(date).toString());  
-//		    
-//		    String From = formatter.format(date).toString() + " " + fromTf.getText();
-//		    String To = formatter.format(date).toString() + " " + toTf.getText();
-//		    
-//		    System.out.println("From = " + From);
-//		    System.out.println("To = " + To);
-//
-//		    
-//			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
-//			Date parsedDate = dateFormat.parse(From);
-//			Timestamp fromTimestamp = new java.sql.Timestamp(parsedDate.getTime());
-//			System.out.println("From Timestamp = " + fromTimestamp);
-//	//a
-//			Date parsedDate2 = dateFormat.parse(To);
-//			Timestamp toTimestamp = new java.sql.Timestamp(parsedDate2.getTime());
-//			System.out.println("To Timestamp = " + toTimestamp);
-//
-//			String l = activityCombo.getValue();
-//			System.out.println("Label = " + l);			
+			displayVb.getChildren().clear();
+			Label t  = new Label("Successfully add activity!"+activityCombo.getValue());
+			t.setFont(new Font("Yu Gothic UI Semibold", 18));
+			displayVb.getChildren().add(t);
+
 		} catch(Exception e) {
 			displayVb.getChildren().clear();
-			Label t  = new Label("Invalid Time Format!");
+			Label t  = new Label("Invalid Time Format or Not Select Date!");
 			t.setFont(new Font("Yu Gothic UI Semibold", 18));
 			displayVb.getChildren().add(t);
 			
@@ -350,8 +363,8 @@ public class MemberController extends Controller implements Initializable {
 		
 		// Maybe you need to set time
 		
-	    String str = "2022-06-11";
-	    java.sql.Date dateOld = java.sql.Date.valueOf(str); //converting string into sql date  
+//	    String str = "2022-06-11";
+	    java.sql.Date dateOld = java.sql.Date.valueOf(selectedDate); //converting string into sql date  
 	    System.out.println(dateOld);
 		
 		member.getAnalysis(dateOld);
@@ -359,9 +372,48 @@ public class MemberController extends Controller implements Initializable {
 		
 		HashMap<String, Float> AnalysisData = member.getAnalysisData();
 		System.out.println("------------");
+		ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();		
 		for(String key: AnalysisData.keySet()) {
 			System.out.println("Activity: " + key + " average takes " + AnalysisData.get(key) * 100+ "percentage per day.");
+			pieChartData.add(new PieChart.Data(key, AnalysisData.get(key) * 100));
 		}
+		
+		displayVb.getChildren().clear();
+		
+		final PieChart chart = new PieChart(pieChartData);	
+		chart.setLegendVisible(false);
+		chart.setLabelLineLength(10);
+		if (AnalysisData.size() == 0) {
+			chart.setTitle("No Data !");
+		} else {
+			chart.setTitle("Time Analysis of " + selectedDate);			
+		}
+		chart.setStyle("-fx-font: 12 arial;");
+		final Label caption = new Label("");
+		caption.setTextFill(Color.BLUE);
+		caption.setStyle("-fx-font: 12 arial;");
+		for (final PieChart.Data data : chart.getData()) {
+		    data.getNode().addEventHandler(MouseEvent.MOUSE_PRESSED,
+		        new EventHandler<MouseEvent>() {
+		            @Override public void handle(MouseEvent e) {
+//		                caption.setTranslateX(e.getSceneX());
+//		                caption.setTranslateY(e.getSceneY());
+		                caption.setText(String.valueOf("Label " + data.getName()+ ": "+data.getPieValue()) + "%");
+		             }
+		        });
+		}
+		displayVb.setPrefHeight(300);
+		displayVb.setPrefWidth(360);
+		DatePicker d = new DatePicker();
+		d.setPromptText(selectedDate);
+		d.setOnAction((e) -> {
+			selectedDate = d.getValue().toString();
+			System.out.println(selectedDate);
+			pressAnalysisBtn();
+		});
+		displayVb.getChildren().add(d);
+		displayVb.getChildren().add(caption);
+		displayVb.getChildren().add(chart);
 	}
 
 	@Override

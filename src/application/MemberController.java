@@ -231,7 +231,7 @@ public class MemberController extends Controller implements Initializable {
 	    ArrayList<Activity> activities = Activity.getActivityFromDateInDB(this.username, (java.sql.Date) date);
 	    
 	    for (Activity activity: activities) {
-	    	System.out.println("Name: " + activity.getActivity_name() + ", Start: " + activity.getStart_time_fix() + ", End: " + activity.getEnd_time_fix());
+	    	System.out.println("Name: " + activity.getActivity_name() + ", Start: " + activity.getStart_time() + ", End: " + activity.getEnd_time());
 	    }
 
 	}

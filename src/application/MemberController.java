@@ -124,55 +124,81 @@ public class MemberController extends Controller implements Initializable {
 	}
 		
 	public void pressAddBtn() {
-		// [MING] Add new Labels to DB, then show it on displayVb (you should replace Array existLabels here)
-		ArrayList<String> existLabels = new ArrayList<String>();
-		existLabels.add("123");
-		if ((labelTf.getText() != null) && !labelTf.getText().equals(""))
-			existLabels.add(labelTf.getText());
 		
+		ActivityLabels labels = new ActivityLabels(this.username);		
+		
+		ArrayList<String> existLabels = labels.getLabels();
+		
+		// [MING], [Done] Add new Labels to DB, then show it on displayVb (you should replace Array existLabels here)
+		if ((labelTf.getText() != null) && !labelTf.getText().equals("")) {
+			if (existLabels.contains(labelTf.getText())) {
+				// TODO [Gting] Need to show already exist related message.
+				System.out.println("Label already exist!");
+			}else {
+				labels.addSingleLabel(labelTf.getText());
+			}
+		}
 		displayVb.getChildren().clear();
 		
-		// [MING] this part of code should be replace to pressLabelBtn() when finished add label to DB
-		Label t = null;
-		t  = new Label("Existed Labels: ");
-		t.setFont(new Font("Yu Gothic UI Semibold", 18));
-		displayVb.getChildren().add(t);
-		for(String i : existLabels)
-			t  = new Label(i);
-			t.setFont(new Font("Yu Gothic UI Semibold", 18));
-			displayVb.getChildren().add(t);
+		// [MING], [Done] this part of code should be replace to pressLabelBtn() when finished add label to DB
+		pressLabelBtn();
 	}
 	
 	public void pressVBtn() throws ParseException {
 		// [MING] Please add record to DB
 		try {
-			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");  
-		    Date date = new Date();  
-		    System.out.println(formatter.format(date).toString());  
+			String str = "2022-06-11";
+		    Date date = java.sql.Date.valueOf(str); //converting string into sql date  
+		    System.out.println(date);
+		    long fromHr = 10;
+		    long fromMin = 20;
+		    long toHr = 10;
+		    long toMin = 30;
 		    
-		    String From = formatter.format(date).toString() + " " + fromTf.getText();
-		    String To = formatter.format(date).toString() + " " + toTf.getText();
 		    
-		    System.out.println("From = " + From);
-		    System.out.println("To = " + To);
+		    Timestamp start_time = new Timestamp(date.getTime() + fromHr * 3600 * 1000 + fromMin * 60 * 1000);
+		    System.out.println("Start: " + start_time);
+		    Timestamp end_time = new Timestamp(date.getTime() + toHr * 3600 * 1000 + toMin * 60 * 1000);
+		    System.out.println("End: " + end_time);
 
 		    
-			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
-			Date parsedDate = dateFormat.parse(From);
-			Timestamp fromTimestamp = new java.sql.Timestamp(parsedDate.getTime());
-			System.out.println("From Timestamp = " + fromTimestamp);
-	//a
-			Date parsedDate2 = dateFormat.parse(To);
-			Timestamp toTimestamp = new java.sql.Timestamp(parsedDate2.getTime());
-			System.out.println("To Timestamp = " + toTimestamp);
-
-			String l = activityCombo.getValue();
-			System.out.println("Label = " + l);
-
+		    if (!start_time.before(end_time)) {
+		    	System.out.println("Time error");
+		    	pressActivityBtn();
+		    }
+		    else {
+		    	String choicedLabel = activityCombo.getValue();
+		    	
+				Activity activity = new Activity(this.username, choicedLabel, start_time, end_time);
+				activity.setToDB();
+				
+				showAllActivity();
+//				}
+		    }
 			
 			
-			showAllActivity();
-			
+//			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");  
+//		    Date date = new Date();  
+//		    System.out.println(formatter.format(date).toString());  
+//		    
+//		    String From = formatter.format(date).toString() + " " + fromTf.getText();
+//		    String To = formatter.format(date).toString() + " " + toTf.getText();
+//		    
+//		    System.out.println("From = " + From);
+//		    System.out.println("To = " + To);
+//
+//		    
+//			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+//			Date parsedDate = dateFormat.parse(From);
+//			Timestamp fromTimestamp = new java.sql.Timestamp(parsedDate.getTime());
+//			System.out.println("From Timestamp = " + fromTimestamp);
+//	//a
+//			Date parsedDate2 = dateFormat.parse(To);
+//			Timestamp toTimestamp = new java.sql.Timestamp(parsedDate2.getTime());
+//			System.out.println("To Timestamp = " + toTimestamp);
+//
+//			String l = activityCombo.getValue();
+//			System.out.println("Label = " + l);			
 		} catch(Exception e) {
 			displayVb.getChildren().clear();
 			Label t  = new Label("Invalid Time Format!");
@@ -185,9 +211,21 @@ public class MemberController extends Controller implements Initializable {
 	private void showAllActivity() {
 		displayVb.getChildren().clear();
 		// [MING, Gting] show all activity on displaVb
+		// choose a day
+		String str = "2022-06-11";
+	    Date date = java.sql.Date.valueOf(str); //converting string into sql date  
+	    System.out.println(date);
+	    ArrayList<Activity> activities = Activity.getActivityFromDateInDB(this.username, (java.sql.Date) date);
+	    
+	    for (Activity activity: activities) {
+	    	System.out.println("Name: " + activity.getActivity_name() + ", Start: " + activity.getStart_time_fix() + ", End: " + activity.getEnd_time_fix());
+	    }
+
 	}
 
 	public void pressLabelBtn() {
+		// Maybe can auto press label when login?
+		
 		status = MemberView.Label;
 		render();		
 		activityCombo.getItems().clear();
@@ -195,30 +233,32 @@ public class MemberController extends Controller implements Initializable {
 		// Setting labels
 		ActivityLabels labels = new ActivityLabels(this.username);
 		
-		// Can show all labels, maybe sorted?
-		labels.getLabels();
-		
-		// maybe can input some name
-		
-		String labelName = "Reading";
-		
-		// Press the add label, can add the label by input label name
-		labels.addSingleLabel(labelName);
-		
-		// Can Update automatically
-		// pressLabelsBtn();
+//		usage:
+//		// Can show all labels, maybe sorted?
+//		labels.getLabels();
+//		
+//		// maybe can input some name
+//		
+//		String labelName = "Reading";
+//		
+//		// Press the add label, can add the label by input label name
+//		labels.addSingleLabel(labelName);
+//		
+//		// Can Update automatically
+//		// pressLabelsBtn();
 		
 		// [MING] Get all exist Labels from DB, then show it on displayVb (you should replace Array existLabels here)
-		String[] existLabels = {"123", "456"};
+		ArrayList<String> existLabels = labels.getLabels();
+//		String[] existLabels = {"123", "456"};
 		activityCombo.setValue("Default");
-		for(int i = 0; i < 2; i++)
-			activityCombo.getItems().add(existLabels[i]);
+		for(int i = 0; i < existLabels.size(); i++)
+			activityCombo.getItems().add(existLabels.get(i));
 		displayVb.getChildren().clear();
 		Label t = new Label("Existed Labels:");
 		t.setFont(new Font("Yu Gothic UI Semibold", 18));
 		displayVb.getChildren().add(t);
-		for (int i = 0; i < existLabels.length; i++) {
-			t = new Label(existLabels[i]);
+		for (int i = 0; i < existLabels.size(); i++) {
+			t = new Label(existLabels.get(i));
 			t.setFont(new Font("Yu Gothic UI Semibold", 18));			
 			displayVb.getChildren().add(t);
 		}
@@ -230,49 +270,54 @@ public class MemberController extends Controller implements Initializable {
 		status = MemberView.Activity;
 		render();		
 		// [MING] Get all exist Labels from DB, (you should replace Array existLabels here)
-		String[] existLabels = {"123", "456"};
+		ActivityLabels labels = new ActivityLabels(this.username);
+		ArrayList<String> existLabels = labels.getLabels();
+		
+//		String[] existLabels = {"123", "456"};
 		activityCombo.getItems().clear();
 		activityCombo.setValue("Default");
-		for(int i = 0; i < 2; i++)
-			activityCombo.getItems().add(existLabels[i]);
+		for(int i = 0; i < existLabels.size(); i++)
+			activityCombo.getItems().add(existLabels.get(i));
 		
+		
+		this.showAllActivity();
 		
 //		activityCombo.getItems().set(0, "123");
 //		activityCombo.getItems().set(1, "456");
 		
 		
-		// setting activity
-		
-		// TODO Need to send member_id, Activity, start time, end time
-		
-		// TODO Can show all activity, and can choice one
-		
-		ActivityLabels labels = new ActivityLabels();
-		labels.getLabels();
-		
-		String choicedLabel = "Reading";
-		
-		// TODO [Discussion need] Choose the start time, maybe think how to set
-		Timestamp start_time = new Timestamp(0);
-		
-		// TODO [Discussion need] Choose the end time
-		Timestamp end_time = new Timestamp(1);
-		
-		// TODO check the timestamp and show error in fx
-		if (!start_time.before(end_time)) {
-			System.out.println("Time error");
-			pressActivityBtn();
-		}
-		else {
-			// TODO show it or send it
-			Activity activity = new Activity(this.username, choicedLabel, start_time, end_time);
-			// TODO [Optional] if check this is ok, then send it to db
-			activity.setToDB();
-			
-			// TODO Show the status success
-			
-			// TODO [Optional] Maybe can show all activity there later?
-		}
+//		// setting activity
+//		
+//		// TODO Need to send member_id, Activity, start time, end time
+//		
+//		// TODO Can show all activity, and can choice one
+//		
+//		ActivityLabels labels = new ActivityLabels();
+//		labels.getLabels();
+//		
+//		String choicedLabel = "Reading";
+//		
+//		// TODO [Discussion need] Choose the start time, maybe think how to set
+//		Timestamp start_time = new Timestamp(0);
+//		
+//		// TODO [Discussion need] Choose the end time
+//		Timestamp end_time = new Timestamp(1);
+//		
+//		// TODO check the timestamp and show error in fx
+//		if (!start_time.before(end_time)) {
+//			System.out.println("Time error");
+//			pressActivityBtn();
+//		}
+//		else {
+//			// TODO show it or send it
+//			Activity activity = new Activity(this.username, choicedLabel, start_time, end_time);
+//			// TODO [Optional] if check this is ok, then send it to db
+//			activity.setToDB();
+//			
+//			// TODO Show the status success
+//			
+//			// TODO [Optional] Maybe can show all activity there later?
+//		}
 		
 		//		for(int i = 0; i <10; i ++) {
 		//			Timestamp now = new Timestamp(Calendar.getInstance().getTimeInMillis());
@@ -305,12 +350,18 @@ public class MemberController extends Controller implements Initializable {
 		
 		// Maybe you need to set time
 		
-//	    String str = "2022-06-11";
-//	    Date dateOld = Date.valueOf(str); //converting string into sql date  
-//	    System.out.println(dateOld);
-//		
-//		member.getAnalysis(dateOld);
-//		member.showAnalysis();
+	    String str = "2022-06-11";
+	    java.sql.Date dateOld = java.sql.Date.valueOf(str); //converting string into sql date  
+	    System.out.println(dateOld);
+		
+		member.getAnalysis(dateOld);
+		member.showAnalysis();
+		
+		HashMap<String, Float> AnalysisData = member.getAnalysisData();
+		System.out.println("------------");
+		for(String key: AnalysisData.keySet()) {
+			System.out.println("Activity: " + key + " average takes " + AnalysisData.get(key) * 100+ "percentage per day.");
+		}
 	}
 
 	@Override

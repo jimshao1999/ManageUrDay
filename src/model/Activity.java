@@ -20,8 +20,8 @@ public class Activity {
 	public Activity(String member_id, String activity_name, Timestamp start_time, Timestamp end_time) {
 		this.member_id = member_id;
 		this.activity_name = activity_name;
-		this.start_time = start_time;
-		this.end_time = end_time;
+		this.start_time = new Timestamp(start_time.getTime() + 8 * 3600 * 1000);
+		this.end_time = new Timestamp(end_time.getTime() + 8 * 3600 * 1000);
 	}
 	
 	public static ArrayList<Activity> getActivityFromDateInDB(String username, Date date) {
@@ -54,9 +54,9 @@ public class Activity {
 		return start_time;
 	}
 	
-	public Timestamp getStart_time_fix() {
-		return new Timestamp(start_time.getTime() + 8 * 3600 * 1000);
-	}
+//	public Timestamp getStart_time_fix() {
+//		return new Timestamp(start_time.getTime() + 8 * 3600 * 1000);
+//	}
 
 	public void setStart_time(Timestamp start_time) {
 		this.start_time = start_time;
@@ -65,9 +65,9 @@ public class Activity {
 	public Timestamp getEnd_time() {
 		return end_time;
 	}
-	public Timestamp getEnd_time_fix() {
-		return new Timestamp(end_time.getTime() + 8 * 3600 * 1000);
-	}
+//	public Timestamp getEnd_time_fix() {
+//		return new Timestamp(end_time.getTime() + 8 * 3600 * 1000);
+//	}
 
 	public void setEnd_time(Timestamp end_time) {
 		this.end_time = end_time;

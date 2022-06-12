@@ -6,6 +6,7 @@ The java project is to record how you spend your daily time, and you can analyze
 2. Download `JavaFx` and `mysql-connector` and link to reference library.
 
 ***Dependencies:***
+
 ![Dependencies](https://user-images.githubusercontent.com/46078933/173243517-75d19841-daf8-4efd-bd9f-cf24f6f019d8.png)
 
 

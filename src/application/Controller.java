@@ -40,6 +40,7 @@ public class Controller {
 		root = loader.load();
 		Controller controller = loader.getController();
 		controller.setUsernameLb(username); // Use this to set the username to view. Note that you should set it to database or model or somewhere else. 	
+		((MemberController) controller).pressLabelBtn();
 		stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 		scene = new Scene(root);
 		stage.setScene(scene);

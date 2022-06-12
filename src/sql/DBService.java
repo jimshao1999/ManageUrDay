@@ -187,7 +187,7 @@ public class DBService {
 		
 		try {
 			Connection conn = DBConnection.getConnection();
-			PreparedStatement stmt = conn.prepareStatement("SELECT * FROM activities WHERE member_id=? and Date(start_time)=?"); 
+			PreparedStatement stmt = conn.prepareStatement("SELECT * FROM activities WHERE member_id=? and Date(start_time)=? order by start_time"); 
 			
 			stmt.setString(1, member_username);
 			stmt.setDate(2, date);

@@ -185,15 +185,25 @@ public class MemberController extends Controller implements Initializable {
 		    
 		    String From = date.toString() + " " + fromTf.getText();
 		    String To = date.toString() + " " + toTf.getText();
+			System.out.println(From);
+			System.out.println(To);
+
+
 
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
 			Date parsedDate = dateFormat.parse(From);
 			Timestamp start_time = new java.sql.Timestamp(parsedDate.getTime());
+			System.out.println("From Timestamp = " + start_time);
 
 			Date parsedDate2 = dateFormat.parse(To);
 			Timestamp end_time = new java.sql.Timestamp(parsedDate2.getTime());
-			System.out.println("To Timestamp = " + end_time);
-		   
+			System.out.println("To Timestamp = " + end_time);	
+			
+			if (toTf.getText().startsWith("12")) {
+				end_time = new Timestamp(end_time.getTime() + 12 * 3600 * 1000);
+				System.out.println("To Timestamp = " + end_time);	
+			}
+			
 		    if (!start_time.before(end_time)) {
 		    	System.out.println("Time error");
 		    	pressActivityBtn();
@@ -246,11 +256,11 @@ public class MemberController extends Controller implements Initializable {
 		tableView.getColumns().add(nameColumn);
 		
 		TableColumn<Activity, String> startColumn = new TableColumn<>("Start Time");
-		startColumn.setCellValueFactory(new PropertyValueFactory<>("start_time_fix"));
+		startColumn.setCellValueFactory(new PropertyValueFactory<>("start_time"));
 		tableView.getColumns().add(startColumn);
 
 		TableColumn<Activity, String> endColumn = new TableColumn<>("End Time");
-		endColumn.setCellValueFactory(new PropertyValueFactory<>("end_time_fix"));
+		endColumn.setCellValueFactory(new PropertyValueFactory<>("end_time"));
 		tableView.getColumns().add(endColumn);
 		
 	    for (Activity activity: activities) {

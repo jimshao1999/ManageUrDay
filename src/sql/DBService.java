@@ -161,8 +161,11 @@ public class DBService {
 			stmt.setString(1, UUID.randomUUID().toString());
 			stmt.setString(2, activity.getMember_id());
 			stmt.setString(3, activity.getActivity_name());
-			stmt.setObject(4, activity.getStart_time());
-			stmt.setObject(5, activity.getEnd_time());
+			stmt.setObject(4, new Timestamp(activity.getStart_time().getTime() + 8 * 3600 * 1000));
+//			stmt.setObject(4, activity.getStart_time());
+			stmt.setObject(5, new Timestamp(activity.getEnd_time().getTime() + 8 * 3600 * 1000));
+//			stmt.setObject(5, activity.getEnd_time());
+
 			
 			int res = stmt.executeUpdate();
 			

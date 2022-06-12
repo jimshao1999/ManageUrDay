@@ -202,9 +202,7 @@ public class MemberController extends Controller implements Initializable {
 		    	String choicedLabel = activityCombo.getValue();
 		    	
 				Activity activity = new Activity(this.username, choicedLabel, start_time, end_time);
-				activity.setToDB();
-				
-				showAllActivity();
+				activity.setToDB();				
 //				}
 		    }
 			displayVb.getChildren().clear();
@@ -224,15 +222,43 @@ public class MemberController extends Controller implements Initializable {
 	private void showAllActivity() {
 		displayVb.getChildren().clear();
 		// [MING, Gting] show all activity on displaVb
+		displayVb.setPrefHeight(300);
+		displayVb.setPrefWidth(360);
+		DatePicker d = new DatePicker();
+		d.setPromptText(selectedDate);
+		d.setOnAction((e) -> {
+			selectedDate = d.getValue().toString();
+			System.out.println(selectedDate);
+			showAllActivity();
+		});
+		displayVb.getChildren().add(d);
+
 		// choose a day
-		String str = "2022-06-11";
+		String str = selectedDate;
 	    Date date = java.sql.Date.valueOf(str); //converting string into sql date  
 	    System.out.println(date);
 	    ArrayList<Activity> activities = Activity.getActivityFromDateInDB(this.username, (java.sql.Date) date);
 	    
+		TableView<Activity> tableView = new TableView<Activity>();
+
+		TableColumn<Activity, String> nameColumn = new TableColumn<>("Name");
+		nameColumn.setCellValueFactory(new PropertyValueFactory<>("activity_name"));
+		tableView.getColumns().add(nameColumn);
+		
+		TableColumn<Activity, String> startColumn = new TableColumn<>("Start Time");
+		startColumn.setCellValueFactory(new PropertyValueFactory<>("start_time_fix"));
+		tableView.getColumns().add(startColumn);
+
+		TableColumn<Activity, String> endColumn = new TableColumn<>("End Time");
+		endColumn.setCellValueFactory(new PropertyValueFactory<>("end_time_fix"));
+		tableView.getColumns().add(endColumn);
+		
 	    for (Activity activity: activities) {
-	    	System.out.println("Name: " + activity.getActivity_name() + ", Start: " + activity.getStart_time() + ", End: " + activity.getEnd_time());
+	    	tableView.getItems().add(activity);
+//	    	displayVb.getChildren().add(new Label("Name: " + activity.getActivity_name() + ", Start: " + activity.getStart_time_fix() + ", End: " + activity.getEnd_time_fix()));
+//	    	System.out.println("Name: " + activity.getActivity_name() + ", Start: " + activity.getStart_time_fix() + ", End: " + activity.getEnd_time_fix());
 	    }
+	    displayVb.getChildren().add(tableView);
 
 	}
 

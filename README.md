@@ -17,13 +17,6 @@ The java project is to record how you spend your daily time, and you can analyze
 4. if you meet errors in `module-info.java`, just right click and auto-debug.
 5. Run `\src\Application\Main`
 
-
-## Authors
-- [jimshao1999](https://github.com/jimshao1999)
-- [Gting6](https://github.com/Gting6)
-- [Ming0609](https://github.com/Ming0609)
-- [yu02200059](https://github.com/yu02200059)
-
 ## Quetion
 If fail many time, you can try to open the application by our jar file below.
 
@@ -40,4 +33,11 @@ Example:
 ```
 java --module-path "C:\Users\user\Downloads\openjfx\openjfx-18.0.1_windows-x64_bin-sdk (1)\javafx-sdk-18.0.1\lib" --add-modules=javafx.controls,javafx.fxml -jar OOP_optional.jar
 ```
+
+## Authors
+- [jimshao1999](https://github.com/jimshao1999)
+- [Gting6](https://github.com/Gting6)
+- [Ming0609](https://github.com/Ming0609)
+- [yu02200059](https://github.com/yu02200059)
+
 

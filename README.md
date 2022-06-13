@@ -23,3 +23,21 @@ The java project is to record how you spend your daily time, and you can analyze
 - [Gting6](https://github.com/Gting6)
 - [Ming0609](https://github.com/Ming0609)
 - [yu02200059](https://github.com/yu02200059)
+
+## Quetion
+If fail many time, you can try to open the application by our jar file below.
+
+[Jar](https://gntuedutw-my.sharepoint.com/personal/b08505023_g_ntu_edu_tw/_layouts/15/onedrive.aspx?id=%2Fpersonal%2Fb08505023%5Fg%5Fntu%5Fedu%5Ftw%2FDocuments%2FOOP%5Foptional&ga=1)
+
+Put the jar file in your favorite folder and run the command below or seeing the launch.bat
+
+```
+java --module-path "{Your javafx lib folder}\javafx-sdk-18.0.1\lib" --add-modules=javafx.controls,javafx.fxml -jar OOP_optional.jar
+```
+
+Example:
+
+```
+java --module-path "C:\Users\user\Downloads\openjfx\openjfx-18.0.1_windows-x64_bin-sdk (1)\javafx-sdk-18.0.1\lib" --add-modules=javafx.controls,javafx.fxml -jar OOP_optional.jar
+```
+

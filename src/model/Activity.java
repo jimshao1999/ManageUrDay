@@ -20,8 +20,8 @@ public class Activity {
 	public Activity(String member_id, String activity_name, Timestamp start_time, Timestamp end_time) {
 		this.member_id = member_id;
 		this.activity_name = activity_name;
-		this.start_time = new Timestamp(start_time.getTime() + 8 * 3600 * 1000);
-		this.end_time = new Timestamp(end_time.getTime() + 8 * 3600 * 1000);
+		this.start_time = start_time;
+		this.end_time = end_time;
 	}
 	
 	public static ArrayList<Activity> getActivityFromDateInDB(String username, Date date) {

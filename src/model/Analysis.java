@@ -7,23 +7,26 @@ import java.util.HashMap;
 
 import sql.DBService;
 
+/*
+ * This class handle the analysis and related data.
+ */
 public class Analysis {
-	
+
 	private ArrayList<Activity> activities;
-	private String member_name; 
-	
+	private String member_name;
+
 	public Analysis() {
 		activities = new ArrayList<>();
 	}
-	
+
 	public Analysis(String member_name) {
 		activities = new ArrayList<>();
 		this.member_name = member_name;
 	}
-	
+
 	public void getActivitiesFromDB() {
 	}
-	
+
 //	public HashMap<String, Integer> analysisTimeUse(Date date) {
 //		DBService dbService = new DBService();
 //		this.activities = dbService.getDailyActivity(this.member_name, date);
@@ -49,7 +52,10 @@ public class Analysis {
 //		}
 //		return sep_act_analysis;
 //	}
-	
+
+	/*
+	 * Help to analysis the percentage of daliy time using.
+	 */
 	public HashMap<String, Float> analysisDailyTimeUse(Date date) {
 		DBService dbService = new DBService();
 		this.activities = dbService.getDailyActivity(this.member_name, date);
@@ -57,19 +63,18 @@ public class Analysis {
 //		HashMap<String, Integer> sep_act_quan = new HashMap<>();
 		int total_time = 0;
 		HashMap<String, Float> sep_act_analysis = new HashMap<>();
-		for(Activity act: activities) {
+		for (Activity act : activities) {
 			long diff = act.getEnd_time().getTime() - act.getStart_time().getTime();
 //			Timestamp ts = new Timestamp(diff);
-			diff = diff/1000/60; // millisecondes to minutes
+			diff = diff / 1000 / 60; // millisecondes to minutes
 			total_time += diff;
-			if(sep_act_time.containsKey(act.getActivity_name())) {
-				sep_act_time.put(act.getActivity_name(), (int) (sep_act_time.get(act.getActivity_name())+diff));
-			}
-			else {
+			if (sep_act_time.containsKey(act.getActivity_name())) {
+				sep_act_time.put(act.getActivity_name(), (int) (sep_act_time.get(act.getActivity_name()) + diff));
+			} else {
 				sep_act_time.put(act.getActivity_name(), (int) diff);
-			}	
+			}
 		}
-		for(String key: sep_act_time.keySet()) {
+		for (String key : sep_act_time.keySet()) {
 			sep_act_analysis.put(key, (float) sep_act_time.get(key) / total_time);
 		}
 		return sep_act_analysis;

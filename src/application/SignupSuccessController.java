@@ -15,11 +15,14 @@ import javafx.scene.control.TextField;
 import model.Member;
 import view.LoginView;
 
+/*
+ * Sign up Controller can control the sign up page.
+ */
 public class SignupSuccessController extends Controller implements Initializable {
-	
+
 	@FXML
 	private TextField usernameTf;
-	
+
 	@FXML
 	private TextField passwordTf;
 
@@ -41,7 +44,6 @@ public class SignupSuccessController extends Controller implements Initializable
 	private LoginView status;
 //	private UserType usertype;
 
-	
 	@Override
 	protected void render() {
 		if (status == LoginView.SignUp) {
@@ -61,37 +63,36 @@ public class SignupSuccessController extends Controller implements Initializable
 			confirmBtn.setVisible(false);
 		}
 	}
-	
+
+	/*
+	 * Back to login page button.
+	 */
 	public void pressBackBtn(ActionEvent event) throws IOException {
 		switchScene(ViewEnum.LOGIN, event);
 	}
-	
+
+	/*
+	 * Showing the error msg to user.
+	 */
 	private void setWrongLb(String s) {
 		wrongLb.setText(s);
 		wrongLb.setVisible(true);
 	}
 
+	/*
+	 * Send the information of users to db.
+	 */
 	public void pressConfirmBtn(ActionEvent event) throws IOException {
 
-		// Please remove the rest and deliveryman tag. 
+		// Please remove the rest and deliveryman tag.
 		usernameTf.getText();
 		passwordTf.getText();
 		confirmTf.getText();
 
-//		// TODO [FX] need add the Tf of address
-//		String address = addressTf.getText();
-//		// TODO [FX](done) need add the Tf of phoneNumber
-//		String phone = phoneTf.getText();
-//		// TODO [FX](done) need add the Tf of email
-//		String email = emailTf.getText();
-//
 		// TODO [FX](done) need add the Tf of name
 		String name = nameTf.getText();
 
 		String pattern = "[0-9a-zA-Z]+";
-//		
-//		String phonePattern = "09[0-9]{8}";
-//		String emailPattern = "^\\w{1,63}@[a-zA-Z0-9]{2,63}\\.[a-zA-Z]{2,63}(\\.[a-zA-Z]{2,63})?$";
 
 		System.out.println(passwordTf.getText());
 		System.out.println(confirmTf.getText());
@@ -102,32 +103,19 @@ public class SignupSuccessController extends Controller implements Initializable
 
 		while (true) {
 
-			if (!Pattern.matches(pattern, usernameTf.getText())
-					|| !Pattern.matches(pattern, passwordTf.getText())) {
+			if (!Pattern.matches(pattern, usernameTf.getText()) || !Pattern.matches(pattern, passwordTf.getText())) {
 				// TODO [Fx](done) The string in wrongLb can be change to the string mentioned
 				// below.
 				setWrongLb("Error pattern in username or password");
 				wrongLb.setVisible(true);
 				break;
 			}
-			
+
 			if (name.length() == 0) {
 				setWrongLb("Please input name");
 				wrongLb.setVisible(true);
 				break;
 			}
-			
-//			if (!Pattern.matches(phonePattern, phone)) {
-//				setWrongLb("Error pattern in phone");
-//				wrongLb.setVisible(true);
-//				break;
-//			}
-//			
-//			if (!Pattern.matches(emailPattern, email)) {
-//				setWrongLb("Error pattern in email");
-//				wrongLb.setVisible(true);
-//				break;
-//			}
 
 			if (!passwordTf.getText().equals(confirmTf.getText())) {
 				// TODO [Fx](done) The string in wrongLb can be change to the string mentioned
@@ -137,24 +125,22 @@ public class SignupSuccessController extends Controller implements Initializable
 				break;
 			}
 			// Maybe add email?
-			
+
 			Member member = new Member(usernameTf.getText(), passwordTf.getText(), name);
-			
+
 			if (member.isRegister()) {
 				setWrongLb("Fail to register member");
 				wrongLb.setVisible(true);
-			}
-			else {
+			} else {
 				member.setToDB();
 				setWrongLb("Successfully sign up!, press Go back to login!");
 				status = LoginView.Success;
 				render();
-			}			
+			}
 			break;
 		}
 	}
-	
-	
+
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// TODO Auto-generated method stub

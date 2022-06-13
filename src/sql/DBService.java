@@ -14,9 +14,14 @@ import model.Activity;
 import model.ActivityLabels;
 import model.Analysis;
 
-
+/*
+ * This class provide the db service to model, very important.
+ */
 public class DBService {	
 	
+	/*
+	 * Create member in db.
+	 */
 	public void createMember(Member member) {
 		
 		try {
@@ -40,7 +45,9 @@ public class DBService {
 		}
 	}
 	
-//	Note: I deleted role
+	/*
+	 * Can check login status in db.
+	 */
 	public boolean loginDB(String username, String password) {
 		
 		try {
@@ -69,6 +76,9 @@ public class DBService {
 		return false;
 	}
 	
+	/*
+	 * Can get informations of member in db by giving the username and password.
+	 */
 	public Member getMember(String username, String password) {
 		
 		try {
@@ -96,6 +106,9 @@ public class DBService {
 		return null;
 	}
 	
+	/*
+	 * Can Get member information by giving the username.
+	 */
 	public Member getMember(String username) {
 		
 		try {
@@ -123,6 +136,9 @@ public class DBService {
 		return null;
 	}
 	
+	/*
+	 * Can check the member by giving the username.
+	 */
 	public boolean checkMember(String username) {
 		
 		try {
@@ -152,6 +168,9 @@ public class DBService {
 		return false;
 	}
 	
+	/*
+	 * Can create a activity in db.
+	 */
 	public void createActivity(Activity activity) {
 		
 		try {
@@ -184,6 +203,9 @@ public class DBService {
 		}
 	}	
 	
+	/*
+	 * When giving date and user, can get daily activity from db.
+	 */
 	public ArrayList<Activity> getDailyActivity(String member_username, Date date) {
 		
 		ArrayList<Activity> activities = new ArrayList<>();
@@ -217,6 +239,9 @@ public class DBService {
 		return null;
 	}
 	
+	/*
+	 * Can create activity labels when giving label.
+	 */
 	public void createActivityLabels(ActivityLabels label) {
 		
 		try {
@@ -244,6 +269,9 @@ public class DBService {
 		}
 	}	
 	
+	/*
+	 * Can get activity labels of member.
+	 */
 	public ArrayList<String> getActivityLabels(String member_username) {
 		
 		ArrayList<String> activity_labels = new ArrayList<>();

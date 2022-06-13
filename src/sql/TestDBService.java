@@ -11,6 +11,9 @@ import model.Member;
 import model.Analysis;
 import model.Activity;
 
+/*
+ * Can test the basic db service, may cause some error when running more times.
+ */
 public class TestDBService {
 
 	public static void main(String[] args) throws SQLException {

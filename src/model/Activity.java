@@ -6,34 +6,47 @@ import java.util.ArrayList;
 
 import sql.DBService;
 
+/*
+ * This class define the activity and related function.
+ */
 public class Activity {
 
 	private String member_id;
 	private String activity_name;
 	private Timestamp start_time;
 	private Timestamp end_time;
-	
+
 	public Activity() {
-		
+
 	}
-	
+
+	/*
+	 * Construct a activity by typing the informations.
+	 */
 	public Activity(String member_id, String activity_name, Timestamp start_time, Timestamp end_time) {
 		this.member_id = member_id;
 		this.activity_name = activity_name;
 		this.start_time = start_time;
 		this.end_time = end_time;
 	}
-	
+
+	/*
+	 * Getting a activity from db by typing date.
+	 */
 	public static ArrayList<Activity> getActivityFromDateInDB(String username, Date date) {
 		DBService dbService = new DBService();
 		return dbService.getDailyActivity(username, date);
 	}
 	
+	/*
+	 * The code below about setter getter functions.
+	 */
+
 	public void setToDB() {
 		DBService dbService = new DBService();
 		dbService.createActivity(this);
 	}
-	
+
 	public String getMember_id() {
 		return member_id;
 	}
@@ -53,7 +66,7 @@ public class Activity {
 	public Timestamp getStart_time() {
 		return start_time;
 	}
-	
+
 //	public Timestamp getStart_time_fix() {
 //		return new Timestamp(start_time.getTime() + 8 * 3600 * 1000);
 //	}

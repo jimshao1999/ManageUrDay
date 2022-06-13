@@ -22,6 +22,9 @@ import javafx.stage.Stage;
 import model.Member;
 import view.LoginView;
 
+/*
+ * LoginController control the login page.
+ */
 public class LoginController extends Controller implements Initializable {
 
 	@FXML
@@ -39,8 +42,6 @@ public class LoginController extends Controller implements Initializable {
 	@FXML
 	private TextField passwordTf;
 
-
-	
 	// To set the error message for wrongLb
 	// Can be extend to input label.
 	private void setWrongLb(String s) {
@@ -51,13 +52,13 @@ public class LoginController extends Controller implements Initializable {
 	// There is only 1 status at login -> No need to render here
 	@Override
 	protected void render() {
-		
+
 	}
 
 	public void pressLoginBtn(ActionEvent event) throws IOException {
 		usernameTf.getText();
 		passwordTf.getText();
-		
+
 		// Add check who want to login? or use if to handle
 		String pattern = "[0-9a-zA-Z]+";
 
@@ -67,20 +68,19 @@ public class LoginController extends Controller implements Initializable {
 				setWrongLb("Error pattern in username or password");
 				wrongLb.setVisible(true);
 				// refresh
-					break;
-				}
-			
+				break;
+			}
+
 			Member member = new Member(usernameTf.getText(), passwordTf.getText());
 
 			if (member.checklogin()) {
 				switchScene(ViewEnum.MEMBER, event, usernameTf.getText());
 				System.out.println("Login success as member");
-			}
-			else {
+			} else {
 				setWrongLb("Login Fail");
 				wrongLb.setVisible(true);
 			}
-      
+
 			break;
 		}
 	}

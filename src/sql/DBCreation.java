@@ -5,6 +5,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+/*
+ * This class try to create the tables in db.
+ */
 public class DBCreation {
 	
 	private static Connection conn = null;
@@ -13,7 +16,9 @@ public class DBCreation {
     private static final String USER = "root";
     private static final String PASS = "123456";
 	
-	
+	/*
+	 * DB Creation code, create the table in db.
+	 */
 	public static Connection createDB() {
 		
 		try {

@@ -13,7 +13,6 @@ public class Main extends Application {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource("/view/Login.fxml"));
-//			loader.setController("LoginController");
 			Parent root = loader.load();
 			Scene scene = new Scene(root);
 			stage.setScene(scene);

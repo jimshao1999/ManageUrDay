@@ -5,7 +5,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 import sql.DBCreation;
-
+/*
+ * This class try to connection the db.
+ */
 public class DBConnection {
 	
 	private static Connection conn = null;
@@ -20,6 +22,9 @@ public class DBConnection {
 		
 	}
 	
+	/*
+	 * Connection function.
+	 */
 	public static Connection getConnection() {
 		
 		try {

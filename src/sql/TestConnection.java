@@ -2,6 +2,9 @@ package sql;
 
 import java.sql.*;
 
+/*
+ * This class can test the connection to db.
+ */
 public class TestConnection {
 
 	public static void main(String[] args) throws SQLException {
